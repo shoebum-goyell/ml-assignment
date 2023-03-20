@@ -1,19 +1,19 @@
 import pandas as pd
 import numpy
 class Perceptron:
-    def __init__(self, ds):
-        self.ds = ds
+    def __init__(self, training, test):
+        self.training = training
+        self.test = test
 
-    def task1(self, seed, epochs):
-        training= self.ds.sample(frac=0.67, random_state=seed)
-        test = self.ds.drop(training.index)
-        test_class = test['diagnosis'].to_numpy()
-        test = test.drop(['id', 'diagnosis'], axis=1)
-        test = test.to_numpy()
-        training_class = training['diagnosis'].to_numpy()
-        feature_ds= training.drop(['id', 'diagnosis'], axis=1).to_numpy()
-        columns = training.columns
+    def perceptron(self, epochs):
+        test_class = self.test['diagnosis'].to_numpy()
+        self.test = self.test.drop(['id', 'diagnosis'], axis=1)
+        self.test = self.test.to_numpy()
+        training_class = self.training['diagnosis'].to_numpy()
+        feature_ds= self.training.drop(['id', 'diagnosis'], axis=1).to_numpy()
+        columns = self.training.columns
         w = numpy.zeros(len(columns)-2, dtype=int)
+        accuracy = 0
         for j in range(epochs):
             m = 0
             for i in range(len(feature_ds)):
@@ -27,13 +27,15 @@ class Perceptron:
             #     print((len(feature_ds) - m) / len(feature_ds))
             #     break
             accuracy = 0
-            for i in range(len(test)):
+            for i in range(len(self.test)):
                 var = -1
                 if(test_class[i] == 'M'):
                     var = 1
-                if(numpy.dot(w, test[i])*var > 0):
+                if(numpy.dot(w, self.test[i])*var > 0):
                     accuracy = accuracy + 1
-            print("Accuracy: ", accuracy/len(test))
+            # print("Accuracy: ", accuracy/len(self.test))
+        # print("accuracy = ", accuracy*100/len(self.test), "%")
+        return accuracy*100/len(self.test)
 
         
         
