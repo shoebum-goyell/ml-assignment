@@ -33,7 +33,7 @@ class Perceptron:
                     var = 1
                 if(numpy.dot(w, self.test[i])*var > 0):
                     accuracy = accuracy + 1
-            # print("Accuracy: ", accuracy/len(self.test))
+        #     print("Accuracy: ", accuracy/len(self.test))
         # print("accuracy = ", accuracy*100/len(self.test), "%")
         return accuracy*100/len(self.test)
 
